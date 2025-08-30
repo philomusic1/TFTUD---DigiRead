@@ -1,424 +1,1561 @@
-<!DOCTYPE html>
+    .book-cover {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            margin: 20px auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .book-cover:hover {
+            transform: scale(1.02) rotateY(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="0.5" fill="white" opacity="0.1"/><circle cx="20" cy="70" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .cover-title {
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            z-index: 2;
+            background: linear-gradient(45deg, #fff, #f1f2f6, #fff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: coverShine 3s ease infinite;
+        }
+
+        @keyframes coverShine {
+            0%, 100% { background-position: -200% center; }
+            50% { background-position: 200% center; }
+        }
+
+        .cover-author {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            font-style: italic;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Frown Turned Upside Down - Chapter 1</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.css">
-<style>
-  body {
-    background: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    padding: 50px;
-  }
-  #book {
-    width: 800px;
-    height: 600px;
-  }
-  .page {
-    width: 400px;
-    height: 600px;
-    padding: 30px;
-    box-sizing: border-box;
-    background: white;
-    font-family: 'Times New Roman', serif;
-    overflow-y: auto;
-  }
-  .center {
-    text-align: center;
-  }
-  .bold { font-weight: bold; }
-  .italic { font-style: italic; }
-  .large { font-size: 2em; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Frown Turned Upside Down</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #f9ca24 75%, #f0932b 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .reader-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.95), rgba(78, 205, 196, 0.95));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .book-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            background: linear-gradient(135deg, #2c3e50, #e74c3c, #8e44ad);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: textGradient 3s ease infinite;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            padding: 12px 20px;
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1) 1;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 400px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar:focus {
+            border-image: linear-gradient(45deg, #e74c3c, #8e44ad, #3498db) 1;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.4);
+            transform: scale(1.02);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 200% 200%;
+            animation: buttonGradient 3s ease infinite;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes buttonGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            animation: none;
+            background: #95a5a6;
+        }
+
+        .chapter-select {
+            padding: 10px 15px;
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #f39c12, #e67e22, #d35400) 1;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(243, 156, 18, 0.1));
+            color: #2c3e50;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .chapter-select:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .page-info {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .bookmark-btn {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .bookmark-btn:hover {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .bookmark-btn.bookmarked {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            margin: 20px;
+            gap: 20px;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(155, 89, 182, 0.1));
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 140px;
+        }
+
+        .sidebar h3 {
+            background: linear-gradient(135deg, #2c3e50, #8e44ad);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .glossary-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(155, 89, 182, 0.15));
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+            border-image: linear-gradient(135deg, #3498db, #9b59b6) 1;
+            font-weight: 500;
+        }
+
+        .glossary-item:hover {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.25), rgba(155, 89, 182, 0.25));
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        .bookmarks-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .bookmark-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.15), rgba(230, 126, 34, 0.15));
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+            border-image: linear-gradient(135deg, #f39c12, #e67e22) 1;
+            font-weight: 500;
+        }
+
+        .bookmark-item:hover {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.25), rgba(230, 126, 34, 0.25));
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.2);
+        }
+
+        .book-content {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(236, 240, 241, 0.95));
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24, #f0932b);
+            background-size: 300% 300%;
+            animation: borderGlow 5s ease infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .page {
+            display: none;
+            line-height: 1.8;
+            color: #2c3e50;
+            font-size: clamp(16px, 2.5vw, 18px);
+            text-align: left;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page h1 {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: titleGradient 4s ease infinite;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes titleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .page h2 {
+            background: linear-gradient(135deg, #8e44ad, #e74c3c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            margin: 30px 0 15px 0;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #8e44ad, #e74c3c) 1;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .page h3 {
+            color: #2c3e50;
+            font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+            margin: 25px 0 10px 0;
+            text-decoration: underline;
+            text-decoration-color: #3498db;
+            text-decoration-thickness: 2px;
+            font-weight: bold;
+        }
+
+        .page p {
+            margin-bottom: 15px;
+            text-indent: 0;
+        }
+
+        .page blockquote {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(155, 89, 182, 0.15));
+            border-left: 5px solid;
+            border-image: linear-gradient(135deg, #3498db, #9b59b6) 1;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            border-radius: 0 15px 15px 0;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .page .arabic-text {
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            text-align: right;
+            direction: rtl;
+            background: linear-gradient(135deg, rgba(142, 68, 173, 0.15), rgba(231, 76, 60, 0.15));
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid rgba(142, 68, 173, 0.2);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.1);
+        }
+
+        .author-info {
+            text-align: center;
+            font-style: italic;
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .search-highlight {
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            font-weight: bold;
+            padding: 3px 6px;
+            border-radius: 5px;
+            color: #2c3e50;
+            box-shadow: 0 2px 5px rgba(241, 196, 15, 0.3);
+        }
+
+        .swipe-indicator {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+            animation: swipePulse 2s ease infinite;
+            font-weight: bold;
+        }
+
+        @keyframes swipePulse {
+            0%, 100% { opacity: 0.4; transform: translateY(-50%) scale(1); }
+            50% { opacity: 0.8; transform: translateY(-50%) scale(1.1); }
+        }
+
+        .touch-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+        }
+
+        .touch-prev, .touch-next {
+            flex: 1;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .touch-next {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            font-style: italic;
+            color: #666;
+        }
+
+        .book-cover {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            margin: 20px auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .book-cover:hover {
+            transform: scale(1.02) rotateY(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="0.5" fill="white" opacity="0.1"/><circle cx="20" cy="70" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .cover-title {
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            z-index: 2;
+            background: linear-gradient(45deg, #fff, #f1f2f6, #fff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: coverShine 3s ease infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes coverShine {
+            0%, 100% { background-position: -200% center; }
+            50% { background-position: 200% center; }
+        }
+
+        .cover-author {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            font-style: italic;
+        }
+
+        .cover-decorative {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><defs><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:white;stop-opacity:0.2"/><stop offset="100%" style="stop-color:white;stop-opacity:0"/></radialGradient></defs><circle cx="100" cy="100" r="50" fill="url(%23glow)"/><circle cx="300" cy="400" r="80" fill="url(%23glow)"/><circle cx="350" cy="150" r="30" fill="url(%23glow)"/><circle cx="50" cy="350" r="40" fill="url(%23glow)"/></svg>');
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .content-area {
+                flex-direction: column;
+                margin: 10px;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+                order: 2;
+            }
+
+            .book-content {
+                padding: 20px;
+                order: 1;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-buttons {
+                justify-content: center;
+            }
+
+            .header {
+                padding: 15px 10px;
+            }
+
+            .swipe-indicator {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .book-content {
+                padding: 15px;
+            }
+
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            .sidebar {
+                padding: 15px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .sidebar, .swipe-indicator, .touch-area {
+                display: none !important;
+            }
+
+            .book-content {
+                box-shadow: none;
+                background: white;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .page {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="reader-container">
+        <div class="header">
+            <h1 class="book-title">The Frown Turned Upside Down</h1>
+            
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search in book..." id="searchBar">
+            </div>
 
-<div id="book">
-  <div class="page center large bold italic">
-    <!-- Cover Page Image Here -->
-    <img src="cover.jpg" alt="Book Cover" style="width:100%; height:auto;">
-  </div>
-  
-  <div class="page center">
-    <p class="bold">Author: Laaibah Altaf</p>
-    <p class="bold">Editor: Mr. Omar Mohamed</p>
-  </div>
+            <div class="navigation">
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prevBtn">← Previous</button>
+                    <button class="nav-btn" id="nextBtn">Next →</button>
+                </div>
 
-  <div class="page">
-    <p>With special thanks to my parents, siblings, my special proofreaders and editors and my teachers.</p>
-    <p>The ones who supported me whilst writing this novella.</p>
-    <p>I also thank my readers, yourselves, the ones reading this book because if you didn’t read this book then there would be no point in writing this book and last but by no means least I thank my proofreaders, who are my teachers, and my special proofreaders who are Mr. Omar Mohamed, Mr. Abdishakur Mohammed and Mrs. Rumena Aktar, for reading and reviewing my book.</p>
-    <p>Thank You for everything you did.</p>
-  </div>
+                <select class="chapter-select" id="chapterSelect">
+                    <option value="0">Title Page</option>
+                    <option value="1">Part 1</option>
+                    <option value="2">Part 2</option>
+                    <option value="3">Part 3</option>
+                    <option value="4">Auto-biography</option>
+                    <option value="5">Acknowledgements</option>
+                </select>
 
-  <div class="page">
-    <p class="center italic bold">بسم الله الرحمن الرحيم</p>
-    <p>عن عمر بن الخطاب رضي الله عنه قال: قال رسول الله صلى الله عليه وسلم: "إنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى، فَمَنْ كَانَتْ هِجْرَتُهُ إلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إلَى اللَّهِ وَرَسُولِهِ، وَمَنْ كَانَتْ هِجْرَتُهُ لِدُنْيَا يُصِيبُهَا أَوْامْرَأَةٍ يَتَزَوَّجُهَا فَهِجْرَتُهُ إلَى مَا هَاجَرَ إلَي."</p>
-    <p>Umar Ibn Al-Khattab (May Allah be pleased with Him) reported the messenger of Allah (S.A.W.S) as saying, “Actions are only judged by intentions and a man will only get what he intended. If his emigration is to Allah and His Messenger, his emigration is for Allah and His Messenger, but if his emigration is for a worldly benefit or for a woman whom he marries then his emigration is for that which he emigrated. Reported by Bukhari and Muslim.”</p>
-  </div>
+                <div class="page-info">
+                    Page <span id="currentPage">1</span> of <span id="totalPages">6</span>
+                </div>
 
-  
-</div>
-<!-- Part 1 Pages -->
-<div class="page">
-  <p><strong>Part 1:</strong></p>
-  <p> "Here I was in this empty world – or so I thought. I am inside this quiet place where no one who was perfectly sane but for some reason I was special. Everyone outside was gone. The key was still in the door, but the door was open. I walked out. Rust was everywhere. Mould spread like wildfire. Loads of nurses were dead. Beds were covered with scratches, knives and ………BLOOD. It was like a maniac was here. But the blood was fresh. And dead people lay on the floor. Eyes wide open. Staring into thin air. Their hearts were not beating. I ventured for a while.",
-    "“aaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh” my heart began to beat faster by the second. I took a deep breath……… and………. turned the corner.",
-    "A guy holding a knife stabbing the air. I hid. A doctor came running towards him. He stabbed the doctor repeatedly over and over. He stopped and dropped the knife.",
-    "“I am freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!” the doctor lay lifeless on the hard concrete floor. Sirens could be heard. Flashes of blue shone brightly through the window. I tried to run but my feet were frozen. My blood became cold and all I did was shiver. The police barged through the mad hospital and an ambulance was outside. The police saw me sitting there shivering and before I knew it, they ran towards the guy and handcuffed him. He saw me.",
-    "“Beware of the danger you have witnessed.”",
-    "The other police officers took him. One came towards me and touched me on the shoulder.",
-    "“Which school are you from?”",
-    "“I do not have a school. I came here when I was 2.”",
-    "He thought for a while and then answered.",
-    "“Ok. Come with us, we will take you to a school for you to stay in.”",
-    "“Thank you.”",
-    "I went to the police station, and they sent me to Edward primary and secondary school. I was put in the school. They gave me a test, and I proved to be a top student. I was put into 7 Equality (the top set.) they introduced me to my teachers and my class but also, they introduced me to Mr Davis and Ms Rafi who helped me a lot. Mr. Kwark, another teacher who helps me, takes me to every lesson and sits with me. (Including form time.) For 2 weeks. I got used to it. Life was better than my earlier life. Until. One day. I was at school. Mr. Kwark was sat next to me, as per usual, and suddenly both of us were taken to this different place. Sir was…. Well, sir and I was myself, but a silhouette stood still. He turned. He had red eyes. White teeth. And a massive ………… smile.",
-    "“YOU’RE GOING TO DIE LIKE THIS.” Said the smiling man.",
-    "“Safa? Safa? Safa?” Mr. Kwark tapped me over and over. In the end he put his hand on my shoulder and brought me back. I continued my lesson. At the end of the day, I went to Mr. Davis and told him everything."</p>
-</div>
+                <button class="bookmark-btn" id="bookmarkBtn">🔖 Bookmark</button>
+            </div>
+        </div>
 
-<div class="page">
-  <p> "Sir told me that he would take me to the doctors and find out what was going on. They told us that nothing was wrong. Until. Jackson came on the news and spoke.",
-    "“Kiddo there is only one way to cure yourself. Kill someone or kill yourself and make sure that no one sees you. Otherwise, they will get it.” They quickly took him away from the camera. The next day everyone at school was talking about Jackson and were wondering who he was talking about and to.",
-    "I always go to Mr. Davis and Mr. Kwark in the morning. But this time it was different. I was walking up the stairs and Mr. Davis comes out of thin air and takes me by the hand to a room on my own, missing sir’s briefing (meeting). The door shuts.",
-    "“….. he …… was talking to you wasn’t he.”",
-    "“Who, sir?”  I asked.",
-    "“The guy who came on the news.”",
-    "“Ooooooh. Him……. Uh………… I think……. S-s-s-s-o-o-o.”",
-    "“You have it don’t you.”",
-    "“Yes, sir.”",
-    "“o-ok, go to form and I will talk with you at the end of the day.”",
-    "I went to form, and he was there. I call it the SMILER. And like before, Mr. Kwark was there. I came to a halt. Sir noticed me and knew instantly why I stopped. I was pinned to the floor and after 10 minutes of pain and suffering. He was gone and I was brought back to my senses. Sir let go. I got to my feet. I went to form. He was there again. No matter how much I tried he wouldn’t go away. I ignored him for as long as I could.",
-    "It was time for the first lesson of the day. Yet he was still there. Following me through to my next lesson. But instead of going to lesson, I went to Mr Davis and told him everything. He pinned me to the floor so I wouldn’t do any harm. I needed to kill someone. But who? I thought for a while.",
-    "‘Kiddo there is only one way to cure yourself. Kill someone or kill yourself and make sure that no one sees you. Otherwise, they will get it’ kill myself and its suicide. Kill someone else and kill the innocent. ‘YOU’RE GOING TO DIE LIKE THIS.’ What do I do? I’m stuck in a corner with no way out. Ping.",
-    "‘Do you have a plan or what? Text me as soon as you read this message.’",
-    "I thought for a while. Then texted.",
-    "‘Yes, I do. Phone me.’",
-    "Bzzzzz. Bzzzz. Bzzzzz. My phone was ringing.",
-    "“What’s your plan?”",
-    "“Alright. Listen closely.” I said.",
-    "Monday morning. Time for school. The world was put to a halt for me. I had a knife in my collar. I waited and waited. It was 4:30pm and we both walked to our spot. No one was there. We waited."</p>
-</div>
+        <div class="content-area">
+            <div class="sidebar">
+                <h3>📑 Glossary & Navigation</h3>
+                <div class="glossary-item" data-search="hadith">Hadith - Prophet's Sayings</div>
+                <div class="glossary-item" data-search="smiler">The Smiler - Main Antagonist</div>
+                <div class="glossary-item" data-search="boogeyman">The Boogeyman - Monster</div>
+                <div class="glossary-item" data-search="edward primary">Edward Primary School</div>
+                <div class="glossary-item" data-search="bakers field">Baker's Field School</div>
+                <div class="glossary-item" data-search="coventry">Coventry City Police</div>
+                <div class="glossary-item" data-search="mental hospital">Mental Hospital</div>
+                <div class="glossary-item" data-search="safa">Safa - Main Character</div>
+                <div class="glossary-item" data-search="omar mohammed">Mr. Omar Mohammed</div>
 
-<div class="page">
-    <p>"“You hide here and don’t look back, just listen to the sound. Ok.”",
-    "She nodded. She got in position, and I waited. I checked my watch. It’s 5:00pm. Half an hour later, he was there. The smiler. I took the knife out of my collar, made sure that my friend wasn’t watching and………… stabbed myself.",
-    "The last thing I heard was my friend screaming and Ms. Rafi’s footsteps. The next thing I knew was that I was in a hospital bed. I had a white veil over me. Was I dead? Am I free?",
-    "ONLY TIME WILL TELL."</p>
-</div>
+                <h3 style="margin-top: 30px;">🔖 Bookmarks</h3>
+                <div class="bookmarks-list" id="bookmarksList">
+                    <div style="color: #666; font-style: italic; text-align: center; padding: 20px;">No bookmarks yet</div>
+                </div>
+            </div>
 
+            <div class="book-content" id="bookContent">
+                <div class="touch-area">
+                    <div class="touch-prev" id="touchPrev"></div>
+                    <div class="touch-next" id="touchNext">
+                        <div class="swipe-indicator">→</div>
+                    </div>
+                </div>
 
-<!-- Part 2 Pages -->
-<div class="page">
-  <p><strong>Part 2:</strong></p>
-  <p> "“Mr. Davis?”",
-    "“You are going to die soon Safa.”",
-    "“Huh???” I took the veil off. I looked up. It was dark. No light. I could hardly make up for what was in front of me. It certainly wasn’t Mr. Davis or Ms. Rafi. It was like a Pholcus Phalangioides, which is commonly known as a cosmopolitan cellar spider or a daddy long leg spider. But 100 times bigger. It had red eyes. Massive, sharp teeth. And a massive …. SMILE. It lunged at me. Scarring me half to death.",
-    "I grabbed the torch that was next to me. Apparently, I needed it to go to the toilet at night. I turned it on. It ran away. Whatever it was. It will be back. It must have been the Smile’s brother. Were they a family? There is only one way to find out. Ping.",
-    "‘Are you ok? Is there another problem? Is there another plan?’",
-    "Why does my friend always send all her questions at once? In one message. I texted.",
-    "‘Yeah, I’m okay.’",
-    "Should I tell her the truth? Did she see me when I stabbed myself? I guess I will never know. But what I do know is that it’s better not to tell her. If I want to find out what my new problem is then. I have to escape this place. I need to escape.",
-    "The lights flickered: from Blue to RED. He. Was. Back. The unidentified creature. The unidentified haunting. It screeched. I quickly grabbed the torch. It kept on screeching. Every time I shone the light on it, he ran. But he kept returning. There was nothing I could do. My legs weren’t moving. My arms were the only thing I could control.",
-    "I put the torch in my mouth and began to throw myself off the bed and onto the floor. THUD. I was on the floor. I began dragging my legs, crawling, sliding across the floor. Trying desperately to escape. He lunged at me. Again, and again. Over and over. There was a massive line of blood on the floor. I was bleeding.",
-    "The lights turned white. He was gone. My life was put to a halt. I dropped myself to the floor. I could feel hands on my ribs. And I was gone. 5 days later I awoke. I wasn’t in a mental hospital anymore. I was in a normal hospital. And sat beside my bed wasn’t Mr. Davis or Ms. Rafi. In fact, it was a new person who also worked for Edward primary and secondary school. He was wearing a blue lanyard and had an ID card already. He wore a blue suit: like the students. His name was. Mr. Edward. The head of Edward primary and secondary. The principal. Did he exclude me? Does he want me dead? If that’s the case, then I better be prepared."</p>
-</div>
+                <!-- Page 1: Title Page -->
+                <div class="page active" data-page="1">
+                    <div class="book-cover">
+                        <div class="cover-decorative"></div>
+                        <div class="cover-title">The Frown Turned Upside Down</div>
+                        <div class="cover-author">by Laaibah Altaf</div>
+                    </div>
 
-<div class="page">
-  <p> "“Ah, Safa. You’re awake.”",
-    "“Y-Yes sir.”",
-    "“That's excellent, my top student is back. Ms. Rafi said that you were suffering with mental problems. Is that true?”",
-    "“Y-Yes sir.”",
-    "“Ok. I know you like talking to Ms. Rafi, so I am going to call her and tell her to come here and speak to you.”",
-    "“Ok. Thank You sir.”",
-    "He went on his phone and began to dial Ms. Rafi. In the meantime, I slipped a pen into my pocket in case of an emergency, and he tries to kill me. 1 hour later and he still hadn’t made the attempt. But what made an attempt to kill me was the Smiler. He was back. Now I have to deal with two problems.",
-    "The lights began to flicker. The nurses and doctors were panicking. Running around. Trying to find out what was going on. But I knew exactly what the problem was. The smiler and the unidentified creature. The smiler appeared out of nowhere. He disappeared. He re-appeared. But to my left. Out of the darkness I could barely make out a silhouette coming up the stairs. But I realized his arms were very long. In fact, they were the same size as his legs. If you put him up against my PE teacher (who is the tallest in my school) he would beat Mr. Garet, who is 2.9m (I think) by 5 meters. The smiler vanished again. This time he never came back.",
-    "The mysterious creature continued to walk towards me. But this time it was different. This time I could see Mr. Edward and everyone else who was in the hospital. Could they see the smiler? Could they see the creature? I don’t know. But one thing was clear: Mr. Edward was looking at me with a shock of horror. It was as though he could see them. They both lunged at me. Mr. Edward leaned back. I put my arms in front of my face and curled up. They lunged at me. Biting my arms. Scratching my legs. Breaking my bones.",
-    "I could hear someone running up the stairs. I never made a sound. The next minute I saw Mr. Davis and Ms. Rafi and after that. I was gone. I woke up in a cell. A cell located in Coventry City Police. The CCP. They are definitely going to send me to a mental hospital.",
-    "“Lights out!” shouted the guard. I took my blazer off and hung it on the hook. I put my lanyard and tie to the side. I lay down on my bed and pulled up my very thin blanket. I closed my eyes and envisioned the last moment I had with my parents before they were murdered, and I went into a mental hospital.",
-    "When suddenly, the smile and the creature came to me in my dream. I awoke. Sweating. Panting for breath. I quickly grabbed my torch and turned it on. I scanned the room. They weren’t there. As a wave of relief washed over me, one thought kept on coming back. The movie. The movie I had watched with my friend that night. It was about something like this. It was called the Boogeyman. Now I know what my two problems are. The smile and the.",
-    "“Safa. Safa. How are you?”",
-    "“I’m good. Thanks Mr. Garet. How are you?”",
-    "“I’m good, thanks. Ms. Rafi couldn’t make it, so she sent me.”",
-    "“ok” I saw a piece of paper to my left. I picked it up. I took the pen out of my pocket and began to write.",
-    "“Sir can you.”"</p>
-</div>
+                    <div class="author-info">
+                        <p><strong><em>Author: Laaibah Altaf</em></strong></p>
+                        <p><strong><em>Editor: Mr. Omar Mohamed</em></strong></p>
+                    </div>
 
-<div class="page">
-    <p>"I was cut off. BZZZ. BZZZ. BZZZ. My phone was ringing. It was Jemima. Now what do I do? Answer the phone or give the note. I don’t know. I declined.",
-    "‘Call me back in 5 minutes.’",
-    "“Sir, can you please give this to Ms. Rafi.” He took it. And walked away. I was left alone with Mr. Edward. The sun was setting. I still couldn’t move my legs. He got up and left a note next to me. It read: ‘Don’t worry. I will be back. Nothing can harm you unless I say so or you attack. Just stay still.’",
-    "Was he… Involved? Was he their… L-Leader? If so, then there is only one way to find out. I texted my friend. We were ready to go. We were ready to find out. Find out whether he was their leader or not?",
-    "Only God knows what his intentions are."</p>
-</div>
+                    <blockquote class="arabic-text">
+                        عن عمر بن الخطاب رضي الله عنه قال: قال رسول الله صلى الله عليه وسلم:(إنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى، فَمَنْ كَانَتْ هِجْرَتُهُ إلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إلَى اللَّهِ وَرَسُولِهِ، وَمَنْ كَانَتْ هِجْرَتُهُ لِدُنْيَا يُصِيبُهَا أَوْ امْرَأَةٍ يَنْكِحُهَا فَهِجْرَتُهُ إلَى مَا هَاجَرَ إلَيْهِ.)
+                        <br><br>
+                        رواه البخاري ومسلم
+                    </blockquote>
 
-<!-- Part 3 Pages -->
-<div class="page">
-  <p><strong>Part 3:</strong></p>
-  <p>"It was night. Whilst, lying in bed I realized 6 red eyes staring straight at me. I counted the eyes. There were only meant to be 4 eyes. The smile had 2 eyes. The boogeyman has two eyes. To whom belonged the 3rd pair of eyes? They looked awfully like a human’s eyes, not a horrid beast. Who was it? The door opened with a draft. But how can it open if they locked it? Unless the people of Coventry are telling me that the police don’t know how to lock doors. Do they? I know the people know how to do it. Why don’t they?",
-    "“CELL 235 IS UNLOCKED!! PRISONER HAS ESCAPED!! I REPEAT, PRISONER HAS ESCAPED!!!” Wait. What happened now? I dropped on the floor. My face was bleeding. They lashed at me. My body was covered in blood. What was once an orange suit was now. RED. I curled into a ball and closed my eyes. I didn’t know what happened next but all I felt was knifelike nails tearing at my skin.",
-    "The next time I opened my eyes I was in a Black police van travelling across from Coventry City to Birmingham City. A bright light came through. I was welcomed by two people both dressed in a black and blue suit and a Yellow Lanyard. One was a lady, and one was a man. They took me to a strange-looking building. It wasn’t that tall. It was about 5 stories high. Not much compared to prison.",
-    "“Good morning. Safa, I presume?”",
-    "“Good morning, S-Sir, Yes I am Safa.”",
-    "“Thank you, Safa, I am Mr. Oliver”",
-    "“And I’m Mrs. Foak. Thank you very much.” she said, now facing Mr. Oliver. Sir looked at Miss and it was not very long before Sir burst out laughing. Until Miss was about to walk away.",
-    "A Somali man, with a small, extremely curly, black beard had appeared. He had dark brown eyes and extremely, black curly hair. His hair and his facial hair were about 3cm long. He was dressed in a blue t-shirt and a black jumper with a coat. Who needs a coat on a hot sunny day? I mean, it’s Summer!! He walked towards me. I stepped back. He carried on walking towards me. I kept on stepping back. He continued walking towards me. Until I broke into a run and hid behind the van. He chased after me.",
-    "After half an hour of running circles around the van, I decided to hide behind Mr. Oliver.",
-    "“Bestie, don’t you recognize me?”",
-    "“Bestie?”",
-    "“I taught you before the incident happened. Don’t you remember?”",
-    "“We were all there Mr. Mohammed.”",
-    "Mr. Oliver, said in a dull voice. Not as jolly as before. I turned my head, to look at Mr. Oliver and found out that he looked very, extremely familiar. I was back in my old school. Baker’s field primary and secondary school. I was back. I was back.",
-    "I walked out from behind Sir and at once put my hand out for a high five. But what I received was a look of guilt. It was as if they knew something about my parents that I didn’t. Maybe … they … were … indeed. ALIVE. Did they hide from me all these years? Where they in prison? Who were they?"</p>
-</div>
+                    <blockquote>
+                        <p><strong>Umar Ibn Al-Khattab (May Allah be pleased with Him) reported the messenger of Allah (S.A.W.S) as saying, "Actions are only judged by intentions and a man will only get what he intended. If his emigration is to Allah and His Messenger, his emigration is for Allah and His Messenger, but if his emigration is for a worldly benefit or for a woman whom he marries then his emigration is for that which he emigrated.</strong></p>
+                        <p><strong>Reported by Bukhari and Muslim.</strong></p>
+                    </blockquote>
+                </div>
 
-<div class="page">
-  <p> "“What is wrong, sir?”",
-    "“N-N-Nothing. N-Nothing is wrong. Why would anything be wrong? Afterall, we got you back after 10 years of fighting. Ha! why wouldn’t we be happy?” they all put a fake smile on after Mr. Oliver had said that. He knelt down a little.",
-    "“Your parents were M-Murdered right. Well, that’s what you know at least. Your parents…”",
-    "“Sir, if you find it suitable, we shall start her tests again and put her in the right place.” Mr. A. Mohammed really thought I was not intelligent because I clearly saw his eye point at the office.",
-    "“Of course. Of course. Let us go now.” Mr. Oliver began to walk really fast to the office. Sir looked very stiff, not as relaxed as sir normally is. I followed Sir.",
-    "“Wait. If Mr. A. Mohammed is not the principal of this school, then, who is?”",
-    "“Is it not obvious, Safa. Baker’s field primary and secondary school.”",
-    "“Mr. Bakersfield??”",
-    "“Who??Ha, Ha, ha!!” he laughed a lot. I chuckled a little.",
-    "“Myself, Safa. Myself.” For once I was feeling happy I did my tests and went to lunch. By then the teachers had marked them. There was no space in set 1 so they put me in set 2 for English with Miss. Abdullahi. It was a little fun since Miss. Abdullahi would talk a lot, give us a task and then moves onto the next task but what made it fun was the fact that Miss. Abdullahi gave us tasks that we didn’t have to write down. They were mostly debates about different topics. Finally, it was over. The debates with people who don’t know how to debate. Next was Geography.",
-    "“Safa, here is a map of the school. It should help you get around.”",
-    "“Thank You, sir.” I looked at the map. GROUND FLOOR: Art, DT and French. FIRST FLOOR: English and Drama. SECOND FLOOR: Music. (my office) THIRD FLOOR: Science. FOURTH FLOOR: Math. FIFTH FLOOR: Computing. That’s nice. No floor planning or ‘you are here.’ Just which subject is on which floor. Not good, sir not good at all. So, I just came out of English. Therefore, I am on the first floor. Then where is geography. Wait. Mr. Oliver missed it and sir is in a lesson now what do I do? All the English teachers are teaching. Now what?? What do I do? What do I … I can ask a teacher. I walked around the corridor. No one was there. Not even a student. Now what. I can’t wait for someone to come. I’ll be in detention if I do. Should I just confront Mr. Oliver even though he’s in a lesson? No, no. that will disturb everyone else. I guess I will just wander around a bit. My old school had geography and English on the same floor, so maybe I will find a classroom called ‘geography’. I wandered and wandered. All I ever saw was blurry digits and letters on each door engraved in metal. Maybe I should just give up. I sat down, curled up and put my head in my hands and began to cry.",
-    "‘Pull yourself together, Safa. Pull yourself together. You can do this. Wipe your tears and get up. Never give up. Even if you are on your knees. Never let someone tell you to give up. Never accept sweets or anything from a stranger, especially clowns. Remember Safa, I love you a lot. Even if I am not with you physically, I will always be there guide you spiritually. Forever.’ My dad always knew how to strengthen me. He will be there.",
-    "I wiped my tears and lifted my head. I walked to the toilet sink and washed my face. I looked in the mirror. I saw my tear-driven eyes and washed my eyes again. I looked up but this time was different. I saw myself and behind me was. A person. He had pale white skin, two red lines going from his forehead to his mouth. He had red curly hair and a massive red smile. He opened his hands."</p>
-</div>
+                <!-- Page 2: Part 1 -->
+                <div class="page" data-page="2">
+                    <h2><u>Part 1:</u></h2>
+                    
+                    <p>Here I was in this empty world -- or so I thought. I am inside this quiet place where no one who was perfectly sane but for some reason I was special. Everyone outside was gone. The key was still in the door, but the door was open. I walked out. Rust was everywhere. Mould spread like wildfire. Loads of nurses were dead. Beds were covered with scratches, knives and .........BLOOD. It was like a maniac was here. But the blood was fresh. And dead people lay on the floor. Eyes wide open. Staring into thin air. Their hearts were not beating. I ventured for a while.</p>
 
-<div class="page">
-  <p>"“Two sweets per person.” There was a hint of grimace behind his voice. I reached out to take them but. STOPPED. I remembered what my dad had told me: ‘Never accept sweets or anything from a stranger, especially clowns.’ I pulled my hand back. He latched onto me. Digging his nails into my arm. He pulled me forward. I resisted. He opened his mouth. There were multiple rows of sharp canines spinning in a circular motion. He had a snake’s tongue. If anything went in his mouth, it would grind it to dust. He tried to pull me in, but he couldn’t. He lifted me off the ground. My head was entering his mouth. I kicked and punched him over and over. It did nothing. My head continued to move forward and. Forward. I screamed as loud as I could. Yet nobody could hear me. I screamed again and again. Over and over. Non- stop. Yet no one heard. I screamed and screamed. Until I gave up. I gave up. I continued advancing into his mouth. I could feel his canines grinding at my arms. I could see his uvula. It was disgusting. It was wet and his saliva was dripping from it. Great. Now I am going to have nightmares with no apparent end. Lucky Jemimah wasn’t here – she would be screaming her head off by now. THUD!!!!! A door shut. Hope.",
-    "I screamed again. But louder this time, so whoever walked out could hear me. I heard more footsteps. Gradually getting faster, until it broke into a run. They turned the corner. All I could see was darkness. Was I Dead? Dead. Dead. Suddenly, I felt a freezing cold liquid thrown on my face. I opened my eyes.",
-    "“Mr. Oliver?”",
-    "“Safa!! Safa!!” he looked more relieved than me. I put my head down. I had the chance to meet my parents. I could finally see them for real. No more dreams. No more nightmares. Just peace. Just good people. Just heaven. Just faith. No clowns. No smile. No boogeyman. Just peace. Just me and my parents and all the good eggs of humankind. All the eggs that are like my super supportive teachers. I would have been there with them. Free of charge. No worries to bother me. I looked at sir and gave him that look. The look that said, ‘I want to be with my parents.’ He looked back at me.",
-    "“I am sorry Safa. I – I’m sorry. I wish I could have saved them from the fire.” He quickly put his hand over his mouth.",
-    "“I beg your pardon, could you please repeat what you said sir.” I said. Sir soon realized that there was a hint of curiosity in my eye. He stayed quiet.",
-    "“… what are you two talking about without me?”",
-    "“Huh, Bestie?????”",
-    "“Sir, what do we do?” I whispered.",
-    "“I don’t know.” Mr. Oliver whispered as a shock of panic arose within him.",
-    "“Let’s just tell sir the truth.” I whispered quieter than last time.",
-    "“About what??”",
-    "“The fire. You mentioned.” I suggested",
-    "“Oh, did I interrupt you both?” why has Mr. A. Mohammed always been terrible at sarcasm? Seriously, how can my math teacher not know how to use sarcasm. If I told him the truth, he would certainly tell me the rest of the truth, but he would also tell Mr. Oliver off. How can the assistant principle tell the principle off? I thought for a second.",
-    "“No, Mr. Bestie, you did not interrupt us. I just fell over, and sir was helping me, when I told sir that the map, he made was confusing and useless and it missed a few subjects. Not a big deal, sir. Just a mistake.”",
-    "We looked at each other for a while, and then at Mr. Oliver. Sir seemed very relieved that I told a lie to protect him.",
-    "“Thank you, Safa. I have good news for you. Mr. Garet has come to this school as the head of P.E.”",
-    "“Sir, that’s amazing now we have a proper P.E. teacher.” I was excited to be with him again.",
-    "“Which lesson do you have now?”",
-    "“Geography, sir.”",
-    "“Ah, there you are Safa. I’ve been looking everywhere for you.” Mr. Muhammad didn’t really look like Mr. Bestie. He had lightly curly hair and a beard.",
-    "“I got lost. Mostly because sir’s map missed a lot of things.”",
-    "“Let’s go to class now. Come on.” We walked and walked until we reached the end of the corridor and made a left turn before the glass wall."</p>
-</div>
+                    <p>"aaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh" my heart began to beat faster by the second. I took a deep breath......... and.......... turned the corner. A guy holding a knife stabbing the air. I hid. A doctor came running towards him. He stabbed the doctor repeatedly over and over. He stopped and dropped the knife.</p>
 
-<div class="page">
-  <p> "“Safa, this our classroom. You’re lucky it’s only been 6 minutes since the lesson started.”",
-    "“6 minutes??? I thought it was 6 hours not 6 minutes.”",
-    "“Well, welcome to Baker’s field primary and secondary Safa.”",
-    "I entered the classroom. There were 4 rows with 8 people in each row. And a teacher’s desk at the front. Next to Sir’s laptop was a coke can. There was one spot at the back of the class next to the window. In the corner. Sir pointed towards that spot. I knew instantly what he was thinking. No. no. not the corner!!! I put my head down and slowly walked to the seat. Back slouched. After 3 minutes of walking, to annoy Sir further. He got up out of his seat and walked towards me.",
-    "“Safa don’t worry Mr. Oliver will be here in 2 minutes.”",
-    "“I never said anything about Mr. Oliver, S-Sir.”",
-    "“I thought It would be helpful, he sent me an email telling me to call him when I have you.”",
-    "“Ok-ay??”",
-    "The lesson went on and on. But Mr. Oliver was nowhere to be seen. Nor was the smile or the boogeyman. I looked around and put my head down. I looked at the door one last time and. Everyone had disappeared. I rubbed my eyes. They were still there. I could still hear Mr. Muhammad’s voice. I felt a strong wind pushing me out of the classroom. It almost felt like 6 hands on me. I walked out of the classroom. I turned the corner. The smile was there. So was Bogeyman. So was the clown. I am pretty sure my friend said it was called the It. My friend Gamorn Haramas was there. What was she….? How could she be here? There were more monsters behind them. It was like an army of … MONSTERS. I blinked. Again. And again. I threw myself to the wall. They were gone. All of them. Hepsi. Wait. Where did that come from? Am I speaking Turkish now? Cool. I wonder what else I can speak. I saw a black smoke with 2 red lines for eyes. It was carrying a knife. It hovered towards me. Slowly. Slowly. It continued to advance towards me. It lifted its hands, and my teachers were afloat. There was a force field that was choking them. I looked at them. There was Mr. Muhammad, Mr. A. Mohammed, another Mr. Mohamed (A Mr. O. Mohamed (I never met sir, I just heard of sir)) (where do these teachers even come from? There are so many! Seriously!) and finally (not another Mr. Mohammed) Mrs. Foak. I personally thought that there was going to be a bubble around them, turns out they don’t. It also allows me to confirm that everything I saw in Star Wars was a lie. Apart from the force.",
-    "“Are you Darth Vader??” he paused and made a confused face.",
-    "“Uh, Who??”",
-    "“D-A-R-T-H V-A-D-E-R.” I thought speaking s-l-o-w-l-y will help him. Turns out it doesn’t. He is still confused.",
-    "“Uh, no. Child. Would you like a sssweet.” He made a hissing sound. I definitely don’t trust him anymore. I looked at my teachers. It looked as though they were screaming at me to ‘not, not take the sweets’. Wait. So, do I take it or not? Dad always told me not to take them.",
-    "“I think you have the wrong child, I am actually allergic to those.” He stared at me.",
-    "“You don’t have any allergies.” He raised an eyebrow. I know. I know. I am absolutely terrible at telling lies. Not my best thing. لا. لا. Wait. I can speak Arabic now. Woo-hoo!!! Woo-hoo!!!",
-    "“Ok. That’s True. But I am not that type of person who eats sweets.” I kept that thought in my mind, so he didn’t know the truth.",
-    "“You are … so terrible … at lying.” I know. I know. I was never taught how to lie. It’s hard to lie. He began to advance towards me. His ghostly cape waving behind him.",
-    "“Oh, you forgot to tell me your name.”",
-    "“MY … NAME …. IS …Egbere.” His voice sounded as though he had a cough, or he probably was losing his voice from trying to sound scary. Who even told him to do that? By now he was right in front of me. He raised his knife. It was very slow to be honest. He was probably around 100 years old. No wonder why he was slow. His knife was by my neck. Out of nowhere Mr. Garet came running towards me. The knife began to cut my neck. I was bleeding a little, but it never hurt. I must have already been dead. I looked back. The teachers were crying. I looked at the door and saw Gamorn Haramas peeking through the door. She looked different now. She was soaking wet, but it wasn’t raining outside. Something is wrong with her. In the blink of an eye, he stabbed Mr. Garet 5 times in the lungs. 5 times!!! He fell to the ground and spat blood for 2 minutes and. He was gone. My favorite P.E teacher was gone. I took my chance and took the knife out of his hand and punched him in the face. My teachers were released. They ran to Mr. Garet to check if he was alive. I went to Mr. Oliver’s office and looked for him. Sir was nowhere to be found. I ran to reception and called for the ambulance and the police. We picked Mr. Garet up and took him to the ground floor in front of the school, so he could have a chance to be saved. Within 2 minutes, Sir’s body became cold. I knew he had returned to God. There was no way he could be saved now. Mrs. Foak came out of nowhere and dragged me to the club that was next the school.",
-    "“Where is sir?”",
-    "“I don’t know Miss; Sir was not with me in geography. I don’t know where sir is.” I was telling the truth. I highly doubt Miss believed a word I said.",
-    "“You must Know!! Otherwise, your hiding Mr. Oliver from me and you can go back to JAIL!!”",
-    "“I am not Miss.”",
-    "“Fine. Go to jail!! I am calling the police!”",
-    "Great. I go back to jail after being in jail twice already. Now a third time. Not good at all. We walked back into school after Mr. Garet was admitted to hospital. I went to my next lesson. Math. I walked to the fourth floor. Fo3. Mr. A. Mohammed’s classroom. I entered the classroom. About 10 minutes late.",
-    "“Welcome, and where were you?”",
-    "“I was with Mr. Garet. We were giving him to the ambulance.”",
-    "“Ok. Sit down there. next to Jemima.”",
-    "I took my seat. Formatted my table. I took my planner out to go to the toilet. I showed my teacher the pass and went. I was washing my hands, and he was there. The IT. He had a match in his hand and walked to a big patch of grass that was blocking the way and it had a path that went around the school. He lit the match. Smiled threw it on the grass and disappeared. NEE-NAW. NEE-NAW. The sprinklers were activated. Everyone began to scream. I just stood there. Still as a statue. The fire was blocking me from exiting the school. I was stuck. I cupped my hands and filled it with water. By the time I got to the fire, he had returned. He had returned!!! He had returned, with a gallon of petrol? He twisted the cap off and poured it on the fire. I was surrounded by a ball of flames that are about 20 meters tall. There was no way out. I poured more water. Over and over. It didn’t seem to affect it. There was no way out. I would be burned to death. With 10th degree burns. Great now what do I do? Mr. Oliver is missing, Mr. Garet is dead, all of the other teachers are outside. Now what do I do? I could just curl up and sit there with mask over my face. That should work. I sat right at the back of the girl’s bathroom and put my blazer over my mouth, to stop the carbon monoxide from entering my mouth and begin to recite the poem written in a bed. For soon I was to be dead. The poem of Sultan Murad II of the Ottoman Empire.",
-    "Wake from your heedlessness,",
-    "O my eyes awake.",
-    "Long you have slumbered so now,",
-    "My eyes awake.",
-    "Azrail’s intention is your soul to take.",
-    "Wake from your heedlessness,",
-    "O my eyes awake.",
-    "Long you have slumbered so now,",
-    "My eyes awake.",
-    "This world is not your home,",
-    "Soon it melts away.",
-    "Even where all seven climes under your sway,",
-    "Throne and dominion and glory pass away.",
-    "Wake from your heedlessness,",
-    "O my eyes awake.",
-    "Long you have slumbered so now,",
-    "My eyes awake.",
-    "Here is Murad your slave,",
-    "All his sins erase!",
-    "Forgive my errors and all my burdens raise.",
-    "Wake from your heedlessness,",
-    "O my eyes awake.",
-    "I put my head down. Soon I felt a cold hand on my shoulder. I looked at it. It was green. It had a ring on the wedding finger. Mr. Oliver! I looked up. There were many open wounds. Some stitches on normal, green skin. Two bolts where the ears were. His back was humped, and he had a dislocated jaw. He didn’t look like Mr. Oliver at all. He looked awfully like……..MR. GARETT!!! But what do I call sir if Mr. Garett doesn’t look like Mr. Garett. I think I should call him … Terrajstein. He grabbed hold of me and dragged me to the fire. In 10 seconds, I was picked up, curled into a ball, covered and Terrajstein jumped through the fire. Terrajstein did not let me go. Instead, he kept me curled in a ball until we exited the school. I was dropped onto the hard concrete floor with a graze on my elbow. I was bleeding but I didn’t care. I hauled myself up and searched for Mr. Oliver. I looked and looked. Over and over again. But there was still no sign of Sir anywhere. Gamorn was everywhere. Everywhere I looked she was there. There is something suspicious about her. Something very suspicious. I don’t know what told me to look at the gate. Mr. Oliver was there. There was something different about Sir this time: his face was straight. He walked out the gate without opening it. I chased after him. We carried on walking until we reached an empty alleyway. Sir stopped. He turned around. Sir’s eyes had turned from blue to red.",
-    "“Sir?” There was no response. I continued to look around. No one was there. I approached sir slowly. A hand was raised. I stopped in my tracks. There was a groaning sound. Behind me was Terrajstein. It was a trap!! My own teacher had drawn me to a trap. No. no. I can’t believe it. Sir must have been hypnotized into it or they threatened his family that’s why sir did it. That’s … why. I hope. On my left appeared a man in a white mask with no smile and no eyes. Gamorn told me he was called Micheal Myres. On my right was the smile and behind Mr. Oliver was the IT. They had ambushed me.",
-    "They turned the lights off. I was punched in the face. Kicked in the ribs. My arm was broken backwards. My leg was beaten. I fell to the ground. They turned the lights on and handed Sir the knife. He knelt down to my height. I closed my eyes and felt a sharp knife enter my body and exit. Instantly my hands were over my wound and I… FELL FORWARDS."</p>
-</div>
+                    <p>"I am freeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!" the doctor lay lifeless on the hard concrete floor. Sirens could be heard. Flashes of blue shone brightly through the window. I tried to run but my feet were frozen. My blood became cold and all I did was shiver. The police barged through the mad hospital and an ambulance was outside. The police saw me sitting there shivering and before I knew it, they ran towards the guy and handcuffed him. He saw me.</p>
 
-<!-- Autobiography Page -->
-<div class="page">
-  <p><strong><em>Auto-biography:</em></strong></p>
-  <p>"Laaibah Altaf was born to and raised by British Pakistani parents. She is the youngest of three children and has two older siblings. She is part of the Student Government at her School, and she is also an MFL (Modern Foreign Languages) Ambassador for her school. She has won a competition at Holte School as an MFL Ambassador. Laaibah speaks multiple languages such as, English, Urdu, Patwari, a bit of German, BSL (British Sign Language) and Classical Arabic and is currently learning five languages including Somali, Norwegian, Azeri, Turkish and Persian. After school Laaibah dedicates much of her free time to studying, she is a firm believer that '**Knowledge is the key to change.**' “**Knowledge is Power, Power is Wisdom and Wisdom is Understanding.**” is a quote by Vincent King Jr.",
-    "Not receiving support did not stop her as she had a Form Tutor, who she likes to call '**The World’s Best Form Tutor**' called Mr. Omar Mohammed. Mr. Omar Mohammed first started off as her mathematics teacher in Year 8 and eventually became her Form Tutor in Year 9. As her Form Tutor, he would continuously encourage her and support her.",
-    "However, supporting a child who needs a lot of support isn’t easy. So, Altaf had another mathematics teacher to support her at school, Mr. Abdishakur Mohamed. Together both Mr. Mohammed(s) supported her to strive through life and thrive at school, regardless of the fact that they were in no position to physically help her. They continued to dedicate their free time to support her to learn and grow.",
-    "Laaibah is extremely grateful for having such teachers, especially her Form Tutor, Mr. Omar Mohammed, who humbly supported her at school and she is adherent that '**The World needs people, friends and teachers who are like Mr. Omar Mohammed and Mr. Abdishakur Mohamed.**' and that '**Change is inevitable, it is just a matter of time.**'",
-    "Altaf had originally typed this book during one of her English lessons in Year 7 and had shown a few teachers. One of her teachers told her to continue it. After a month of continuous prompting she agreed to make a second book, The Frown Turned Upside Down book 2. This then led to book 3. At this point, Altaf was not thinking of getting her book(s) published. However, her mathematics teacher, Mr. Omar Mohammed, suggested that she should publish it and lent her a hand."</p>
-</div>
+                    <p>"Beware of the danger you have witnessed."</p>
 
-<!-- Acknowledgements Page -->
-<style>
-  /* Container sizes mirror the original <hr> widths and margins */
-  .decorative {
-    margin: 20px auto;
-    width: 60%;
-  }
-  .decorative-middle {
-    margin: 30px auto;
-    width: 40%;
-  }
-  .decorative svg {
-    display: block;
-    width: 100%;
-  }
+                    <p>The other police officers took him. One came towards me and touched me on the shoulder.</p>
 
-  /* Wave and zigzag lines */
-  .wave {
-    fill: none;
-    stroke: #00539C;
-    stroke-width: 6;
-  }
+                    <p>"Which school are you from?"</p>
 
-  /* Fleur-de-lis styling */
-  .fleur {
-    fill: #00539C;
-    font-family: serif;
-  }
+                    <p>"I do not have a school. I came here when I was 2."</p>
 
-  /* Gold diamonds and geometric shapes */
-  .diamond,
-  .geom {
-    fill: #C69C6D;
-  }
-</style>
+                    <p>He thought for a while and then answered.</p>
 
-<div class="page">
-  <!-- Top Decorative Line -->
-  <div class="decorative">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
-      <!-- Blue wave -->
-      <path class="wave" d="M0,40 Q150,10 300,40 T600,40 T900,40 T1200,40" />
-      <!-- Fleur-de-lis symbols -->
-      <text x="100"  y="35" font-size="30" class="fleur">⚜</text>
-      <text x="300"  y="35" font-size="30" class="fleur">⚜</text>
-      <text x="500"  y="35" font-size="30" class="fleur">⚜</text>
-      <text x="700"  y="35" font-size="30" class="fleur">⚜</text>
-      <text x="900"  y="35" font-size="30" class="fleur">⚜</text>
-      <text x="1100" y="35" font-size="30" class="fleur">⚜</text>
-    </svg>
-  </div>
+                    <p>"Ok. Come with us, we will take you to a school for you to stay in."</p>
 
-  <h2 style="text-align:center; font-weight:bold; font-style:italic;">
-    Acknowledgements:
-  </h2>
+                    <p>"Thank you."</p>
 
-  <p>I am Thankful to everyone who supported me, especially the following:</p>
+                    <p>I went to the police station, and they sent me to Edward primary and secondary school. I was put in the school. They gave me a test, and I proved to be a top student. I was put into 7 Equality (the top set.) they introduced me to my teachers and my class but also, they introduced me to Mr Davis and Ms Rafi who helped me a lot. Mr. Kwark, another teacher who helps me, takes me to every lesson and sits with me. (Including form time.) For 2 weeks. I got used to it. Life was better than my earlier life. Until. One day. I was at school. Mr. Kwark was sat next to me, as per usual, and suddenly both of us were taken to this different place. Sir was.... Well, sir and I was myself, but a silhouette stood still. He turned. He had red eyes. White teeth. And a massive ............ smile.</p>
 
-  <ul style="margin-left: 40px; line-height: 1.6;">
-    <li>
-      <strong>Allah</strong> - For providing me with amazing parents and an amazing Form Tutor (Mr. Omar Mohammed), who may be too humble, All praise and thanks is for God.
-    </li>
-    <li>
-      <strong>My Parents</strong> - For always supporting me to do better, raising me, protecting me and helping me see things from a different angle. 
-      <div style="text-align:center; margin: 15px 0;">
-        <strong><em>'One who follows the orders of Allah (God) with regards to obeying his Parents, shall have two doors of Paradise opened to him and if he has one parent then only one door will be opened for him.'</em></strong>  
-        - Hadith
-      </div>
-      May Allah (Allah) protect them as they protected me and May Allah (God) have mercy on them as they had mercy on me as they brought me up.
-    </li>
-    <li>
-      <strong>Mr. Omar Mohammed</strong> - For always being there, despite my nuisance and always supporting me in every aspect of life. I am also grateful to sir for teaching me mathematics and for giving me Naseeha (Advice) on life and for keeping me on track and allowing me to grow and continue to be myself. Sir also supported me in writing this book as my proofreader and editor, the biography and the acknowledgements. May Allah (God) give him strength and knowledge and bestow him with His mercy.
-    </li>
-  </ul>
+                    <p>"YOU'RE GOING TO DIE LIKE THIS." Said the smiling man.</p>
 
-  <!-- Middle Decorative Line -->
-  <div class="decorative decorative-middle">
-    <svg viewBox="0 0 1200 80" preserveAspectRatio="xMinYMin slice">
-      <defs>
-        <pattern id="pattern-geom" x="0" y="0" width="200" height="80" patternUnits="userSpaceOnUse">
-          <!-- Gold diamond -->
-          <polygon points="100,10 120,40 100,70 80,40" class="diamond" />
-          <!-- Gold star/cross shape -->
-          <polygon points="150,35 170,55 150,75 130,55" class="geom" />
-        </pattern>
-      </defs>
-      <rect width="1200" height="80" fill="url(#pattern-geom)" />
-    </svg>
-  </div>
+                    <p>"Safa? Safa? Safa?" Mr. Kwark tapped me over and over. In the end he put his hand on my shoulder and brought me back. I continued my lesson. At the end of the day, I went to Mr. Davis and told him everything. Sir told me that he would take me to the doctors and find out what was going on. They told us that nothing was wrong. Until. Jackson came on the news and spoke.</p>
 
-  <ul style="margin-left: 40px; line-height: 1.6;">
-    <li>
-      <strong>Mr. Abdishakur Mohamed</strong> - For always making everything humorous and helping me to strive in both mathematics and life. Sir played a big role in helping me write my book and continue to be myself. May Allah (God) give him strength and increase his knowledge and bestow him with His mercy.
-    </li>
-  </ul>
+                    <p>"Kiddo there is only one way to cure yourself. Kill someone or kill yourself and make sure that no one sees you. Otherwise, they will get it." They quickly took him away from the camera. The next day everyone at school was talking about Jackson and were wondering who he was talking about and to. I always go to Mr. Davis and Mr. Kwark in the morning. But this time it was different. I was walking up the stairs and Mr. Davis comes out of thin air and takes me by the hand to a room on my own, missing sir's briefing (meeting). The door shuts.</p>
 
-  <p>May Allah (God) lower His wing of mercy on them (even those who are not mentioned) and provide them with protection and strength. May Allah (God) grant them success and grant them (even those who are not mentioned) the highest level of Jannah.</p>
+                    <p>"..... he ...... was talking to you wasn't he."</p>
 
-  <p>I Thank all of my Family, Friends and Teachers who made this book possible, especially those listed above and others whom I did not mention above (otherwise the list would be very long) because in reality nothing is possible without the right support.</p>
+                    <p>"Who, sir?" I asked.</p>
 
-  <p>Remember, <em>'You can Change the World, with your souls.'</em> - Sami Yusuf.</p>
+                    <p>"The guy who came on the news."</p>
 
-  <p>May Allah (God) bestow everyone with mercy and grant everyone success in this life and the next.</p>
+                    <p>"Ooooooh. Him....... Uh............ I think....... S-s-s-s-o-o-o."</p>
 
-  <!-- Bottom Decorative Line -->
-  <div class="decorative">
-    <svg viewBox="0 0 1200 20" preserveAspectRatio="none">
-      <path
-        class="wave"
-        d="M0,0 L50,20 L100,0 L150,20 L200,0 L250,20 L300,0 L350,20
-           L400,0 L450,20 L500,0 L550,20 L600,0 L650,20 L700,0 L750,20
-           L800,0 L850,20 L900,0 L950,20 L1000,0 L1050,20 L1100,0 L1150,20 L1200,0"
-      />
-    </svg>
-  </div>
-</div>
+                    <p>"You have it don't you."</p>
 
-<!-- Special Thank You Page at End -->
-<div class="page center bold italic" style="font-size: 36px;">
-  <p>THANK YOU.</p>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    $("#book").turn({
-      width: 800,
-      height: 600,
-      autoCenter: true,
-      acceleration: true,
-      elevation: 50,
-      gradients: true,
-      duration: 1000
-    });
-  });
-</script>
+                    <p>"Yes, sir."</p>
 
+                    <p>"o-ok, go to form and I will talk with you at the end of the day."</p>
+
+                    <p>I went to form, and he was there. I call it the SMILER. And like before, Mr. Kwark was there. I came to a halt. Sir noticed me and knew instantly why I stopped. I was pinned to the floor and after 10 minutes of pain and suffering. He was gone and I was brought back to my senses. Sir let go. I got to my feet. I went to form. He was there again. No matter how much I tried he wouldn't go away. I ignored him for as long as I could. It was time for the first lesson of the day. Yet he was still there. Following me through to my next lesson. But instead of going to lesson, I went to Mr Davis and told him everything. He pinned me to the floor so I wouldn't do any harm. I needed to kill someone. But who? I thought for a while. <em>'Kiddo there is only one way to cure yourself. Kill someone or kill yourself and make sure that no one sees you. Otherwise, they will get it'</em> kill myself and its suicide. Kill someone else and kill the innocent. <em>'YOU'RE GOING TO DIE LIKE THIS.'</em> What do I do? I'm stuck in a corner with no way out. Ping.</p>
+
+                    <p>'Do you have a plan or what? Text me as soon as you read this message.'</p>
+
+                    <p>I thought for a while. Then texted.</p>
+
+                    <p>'Yes, I do. Phone me.'</p>
+
+                    <p>Bzzzzz. Bzzzz. Bzzzzz. My phone was ringing.</p>
+
+                    <p>"What's your plan?"</p>
+
+                    <p>"Alright. Listen closely." I said.</p>
+
+                    <p>Monday morning. Time for school. The world was put to a halt for me. I had a knife in my collar. I waited and waited. It was 4:30pm and we both walked to our spot. No one was there. We waited.</p>
+
+                    <p>"You hide here and don't look back, just listen to the sound. Ok."</p>
+
+                    <p>She nodded. She got in position, and I waited. I checked my watch. It's 5:00pm. Half an hour later, he was there. The smiler. I took the knife out of my collar, made sure that my friend wasn't watching and............ stabbed myself. The last thing I heard was my friend screaming and Ms. Rafi's footsteps. The next thing I knew was that I was in a hospital bed. I had a white veil over me. Was I dead? Am I free?</p>
+
+                    <p><strong>ONLY TIME WILL TELL.</strong></p>
+                </div>
+
+                <!-- Page 3: Part 2 -->
+                <div class="page" data-page="3">
+                    <h2><u>Part 2:</u></h2>
+                    
+                    <p>"Mr. Davis?"</p>
+
+                    <p>"You are going to die soon Safa."</p>
+
+                    <p>"Huh???" I took the veil off. I looked up. It was dark. No light. I could hardly make up for what was in front of me. It certainly wasn't Mr. Davis or Ms. Rafi. It was like a Pholcus Phalangioides, which is commonly known as a cosmopolitan cellar spider or a daddy long leg spider. But 100 times bigger. It had red eyes. Massive, sharp teeth. And a massive .... SMILE. It lunged at me. Scarring me half to death. I grabbed the torch that was next to me. Apparently, I needed it to go to the toilet at night. I turned it on. It ran away. Whatever it was. It will be back. It must have been the Smile's brother. Were they a family? There is only one way to find out. Ping.</p>
+
+                    <p>'Are you ok? Is there another problem? Is there another plan?'</p>
+
+                    <p>Why does my friend always send all her questions at once? In one message. I texted.</p>
+
+                    <p>'Yeah, I'm okay.'</p>
+
+                    <p>Should I tell her the truth? Did she see me when I stabbed myself? I guess I will never know. But what I do know is that it's better not to tell her. If I want to find out what my new problem is then. I have to escape this place. I need to escape. The lights flickered: from Blue to RED. He. Was. Back. The unidentified creature. The unidentified haunting. It screeched. I quickly grabbed the torch. It kept on screeching. Every time I shone the light on it, he ran. But he kept returning. There was nothing I could do. My legs weren't moving. My arms were the only thing I could control. I put the torch in my mouth and began to throw myself off the bed and onto the floor. THUD. I was on the floor. I began dragging my legs, crawling, sliding across the floor. Trying desperately to escape. He lunged at me. Again, and again. Over and over. There was a massive line of blood on the floor. I was bleeding. The lights turned white. He was gone. My life was put to a halt. I dropped myself to the floor. I could feel hands on my ribs. And I was gone. 5 days later I awoke. I wasn't in a mental hospital anymore. I was in a normal hospital. And sat beside my bed wasn't Mr. Davis or Ms. Rafi. In fact, it was a new person who also worked for Edward primary and secondary school. He was wearing a blue lanyard and had an ID card already. He wore a blue suit: like the students. His name was. Mr. Edward. The head of Edward primary and secondary. The principal. Did he exclude me? Does he want me dead? If that's the case, then I better be prepared.</p>
+
+                    <p>"Ah, Safa. You're awake."</p>
+
+                    <p>"Y-Yes sir."</p>
+
+                    <p>"That's excellent, my top student is back. Ms. Rafi said that you were suffering with mental problems. Is that true?"</p>
+
+                    <p>"Y-Yes sir."</p>
+
+                    <p>"Ok. I know you like talking to Ms. Rafi, so I am going to call her and tell her to come here and speak to you."</p>
+
+                    <p>"Ok. Thank You sir."</p>
+
+                    <p>He went on his phone and began to dial Ms. Rafi. In the meantime, I slipped a pen into my pocket in case of an emergency, and he tries to kill me. 1 hour later and he still hadn't made the attempt. But what made an attempt to kill me was the Smiler. He was back. Now I have to deal with two problems. The lights began to flicker. The nurses and doctors were panicking. Running around. Trying to find out what was going on. But I knew exactly what the problem was. The smiler and the unidentified creature. The smiler appeared out of nowhere. He disappeared. He re-appeared. But to my left. Out of the darkness I could barely make out a silhouette coming up the stairs. But I realized his arms were very long. In fact, they were the same size as his legs. If you put him up against my PE teacher (who is the tallest in my school) he would beat Mr. Garet, who is 2.9m (I think) by 5 meters. The smiler vanished again. This time he never came back. The mysterious creature continued to walk towards me. But this time it was different. This time I could see Mr. Edward and everyone else who was in the hospital. Could they see the smiler? Could they see the creature? I don't know. But one thing was clear: Mr. Edward was looking at me with a shock of horror. It was as though he could see them. They both lunged at me. Mr. Edward leaned back. I put my arms in front of my face and curled up. They lunged at me. Biting my arms. Scratching my legs. Breaking my bones. I could hear someone running up the stairs. I never made a sound. The next minute I saw Mr. Davis and Ms. Rafi and after that. I was gone. I woke up in a cell. A cell located in Coventry City Police. The CCP. They are definitely going to send me to a mental hospital.</p>
+
+                    <p>"Lights out!" shouted the guard. I took my blazer off and hung it on the hook. I put my lanyard and tie to the side. I lay down on my bed and pulled up my very thin blanket. I closed my eyes and envisioned the last moment I had with my parents before they were murdered, and I went into a mental hospital. When suddenly, the smile and the creature came to me in my dream. I awoke. Sweating. Panting for breath. I quickly grabbed my torch and turned it on. I scanned the room. They weren't there. As a wave of relief washed over me, one thought kept on coming back. The movie. The movie I had watched with my friend that night. It was about something like this. It was called the Boogeyman. Now I know what my two problems are. The smile and the.</p>
+
+                    <p>"Safa. Safa. How are you?"</p>
+
+                    <p>"I'm good. Thanks Mr. Garet. How are you?"</p>
+
+                    <p>"I'm good, thanks. Ms. Rafi couldn't make it, so she sent me ."</p>
+
+                    <p>"ok" I saw a piece of paper to my left. I picked it up. I took the pen out of my pocket and began to write.</p>
+
+                    <p>"Sir can you."</p>
+
+                    <p>I was cut off. BZZZ. BZZZ. BZZZ. My phone was ringing. It was Jemima. Now what do I do? Answer the phone or give the note. I don't know. I declined.</p>
+
+                    <p>'Call me back in 5 minutes.'</p>
+
+                    <p>"Sir, can you please give this to Ms. Rafi." He took it. And walked away. I was left alone with Mr. Edward. The sun was setting. I still couldn't move my legs. He got up and left a note next to me. It read: 'Don't worry. I will be back. Nothing can harm you unless I say so or you attack. Just stay still.' Was he... Involved? Was he their... L-Leader? If so, then there is only one way to find out. I texted my friend. We were ready to go. We were ready to find out. Find out whether he was their leader or not?</p>
+
+                    <p>Only God knows what his intentions are.</p>
+                </div>
+
+                <!-- Page 4: Part 3 -->
+                <div class="page" data-page="4">
+                    <h2><u>Part 3:</u></h2>
+                    
+                    <p>It was night. Whilst, lying in bed I realized 6 red eyes staring straight at me. I counted the eyes. There were only meant to be 4 eyes. The smile had 2 eyes. The boogeyman has two eyes. To whom belonged the 3rd pair of eyes? They looked awfully like a human's eyes, not a horrid beast. Who was it? The door opened with a draft. But how can it open if they locked it? Unless the people of Coventry are telling me that the police don't know how to lock doors. Do they? I know the people know how to do it. Why don't they?</p>
+
+                    <p>"CELL 235 IS UNLOCKED!! PRISONER HAS ESCAPED!! I REPEAT, PRISONER HAS ESCAPED!!!" Wait. What happened now? I dropped on the floor. My face was bleeding. They lashed at me. My body was covered in blood. What was once an orange suit was now. RED. I curled into a ball and closed my eyes. I didn't know what happened next but all I felt was knifelike nails tearing at my skin. The next time I opened my eyes I was in a Black police van travelling across from Coventry City to Birmingham City. A bright light came through. I was welcomed by two people both dressed in a black and blue suit and a Yellow Lanyard. One was a lady, and one was a man. They took me to a strange-looking building. It wasn't that tall. It was about 5 stories high. Not much compared to prison.</p>
+
+                    <p>"Good morning. Safa, I presume?"</p>
+
+                    <p>"Good morning, S-Sir, Yes I am Safa."</p>
+
+                    <p>"Thank you, Safa, I am Mr. Oliver"</p>
+
+                    <p>"And I'm Mrs. Foak. Thank you very much." she said, now facing Mr. Oliver. Sir looked at Miss and it was not very long before Sir burst out laughing. Until Miss was about to walk away. A Somali man, with a small, extremely curly, black beard had appeared. He had dark brown eyes and extremely, black curly hair. His hair and his facial hair were about 3cm long. He was dressed in a blue t-shirt and a black jumper with a coat. Who needs a coat on a hot sunny day? I mean, it's Summer!! He walked towards me. I stepped back. He carried on walking towards me. I kept on stepping back. He continued walking towards me. Until I broke into a run and hid behind the van. He chased after me. After half an hour of running circles around the van, I decided to hide behind Mr. Oliver.</p>
+
+                    <p>"Bestie, don't you recognize me?"</p>
+
+                    <p>"Bestie?"</p>
+
+                    <p>"I taught you before the incident happened. Don't you remember?"</p>
+
+                    <p>"We were all there Mr. Mohammed."</p>
+
+                    <p>Mr. Oliver, said in a dull voice. Not as jolly as before. I turned my head, to look at Mr. Oliver and found out that he looked very, extremely familiar. I was back in my old school. Baker's field primary and secondary school. I was back. I was back. I walked out from behind Sir and at once put my hand out for a high five. But what I received was a look of guilt. It was as if they knew something about my parents that I didn't. Maybe ... they ... were ... indeed. ALIVE. Did they hide from me all these years? Where they in prison? Who were they?</p>
+
+                    <p>"What is wrong, sir?"</p>
+
+                    <p>"N-N-Nothing. N-Nothing is wrong. Why would anything be wrong? Afterall, we got you back after 10 years of fighting. Ha! why wouldn't we be happy?" they all put a fake smile on after Mr. Oliver had said that. He knelt down a little.</p>
+
+                    <p>"Your parents were M-Murdered right. Well, that's what you know at least. Your parents..."</p>
+
+                    <p>"Sir, if you find it suitable, we shall start her tests again and put her in the right place." Mr. A. Mohammed really thought I was not intelligent because I clearly saw his eye point at the office.</p>
+
+                    <p>"Of course. Of course. Let us go now." Mr. Oliver began to walk really fast to the office. Sir looked very stiff, not as relaxed as sir normally is. I followed Sir.</p>
+
+                    <p>"Wait. If Mr. A. Mohammed is not the principal of this school, then, who is?"</p>
+
+                    <p>"Is it not obvious, Safa. Baker's field primary and secondary school."</p>
+
+                    <p>"Mr. Bakersfield??"</p>
+
+                    <p>"Who??Ha, Ha, ha!!" he laughed a lot. I chuckled a little.</p>
+
+                    <p>"Myself, Safa. Myself." For once I was feeling happy I did my tests and went to lunch. By then the teachers had marked them. There was no space in set 1 so they put me in set 2 for English with Miss. Abdullahi. It was a little fun since Miss. Abdullahi would talk a lot, give us a task and then moves onto the next task but what made it fun was the fact that Miss. Abdullahi gave us tasks that we didn't have to write down. They were mostly debates about different topics. Finally, it was over. The debates with people who don't know how to debate. Next was Geography.</p>
+
+                    <p>"Safa, here is a map of the school. It should help you get around."</p>
+
+                    <p>"Thank You, sir." I looked at the map. GROUND FLOOR: Art, DT and French. FIRST FLOOR: English and Drama. SECOND FLOOR: Music. (my office) THIRD FLOOR: Science. FOURTH FLOOR: Math. FIFTH FLOOR: Computing. That's nice. No floor planning or 'you are here.' Just which subject is on which floor. Not good, sir not good at all. So, I just came out of English. Therefore, I am on the first floor. Then where is geography. Wait. Mr. Oliver missed it and sir is in a lesson now what do I do? All the English teachers are teaching. Now what?? What do I do? What do I ... I can ask a teacher. I walked around the corridor. No one was there. Not even a student. Now what. I can't wait for someone to come. I'll be in detention if I do. Should I just confront Mr. Oliver even though he's in a lesson? No, no. that will disturb everyone else. I guess I will just wander around a bit. My old school had geography and English on the same floor, so maybe I will find a classroom called 'geography'. I wandered and wandered. All I ever saw was blurry digits and letters on each door engraved in metal. Maybe I should just give up. I sat down, curled up and put my head in my hands and began to cry. 'Pull yourself together, Safa. Pull yourself together. You can do this. Wipe your tears and get up. Never give up. Even if you are on your knees. Never let someone tell you to give up.</p>
+
+                    <p>Never accept sweets or anything from a stranger, especially clowns. Remember Safa, I love you a lot. Even if I am not with you physically, I will always be there guide you spiritually. Forever.' My dad always knew how to strengthen me. He will be there. I wiped my tears and lifted my head. I walked to the toilet sink and washed my face. I looked in the mirror. I saw my tear-driven eyes and washed my eyes again. I looked up but this time was different. I saw myself and behind me was. A person. He had pale white skin, two red lines going from his forehead to his mouth. He had red curly hair and a massive red smile. He opened his hands.</p>
+
+                    <p>"Two sweets per person." There was a hint of grimace behind his voice. I reached out to take them but. STOPPED. I remembered what my dad had told me: 'Never accept sweets or anything from a stranger, especially clowns.' I pulled my hand back. He latched onto me. Digging his nails into my arm. He pulled me forward. I resisted. He opened his mouth. There were multiple rows of sharp canines spinning in a circular motion. He had a snake's tongue. If anything went in his mouth, it would grind it to dust. He tried to pull me in, but he couldn't. He lifted me off the ground. My head was entering his mouth. I kicked and punched him over and over. It did nothing. My head continued to move forward and. Forward. I screamed as loud as I could. Yet nobody could hear me. I screamed again and again. Over and over. Non- stop. Yet no one heard. I screamed and screamed. Until I gave up. I gave up. I continued advancing into his mouth. I could feel his canines grinding at my arms. I could see his uvula. It was disgusting. It was wet and his saliva was dripping from it. Great. Now I am going to have nightmares with no apparent end. Lucky Jemimah wasn't here -- she would be screaming her head off by now. THUD!!!!! A door shut. Hope. I screamed again. But louder this time, so whoever walked out could hear me. I heard more footsteps. Gradually getting faster, until it broke into a run. They turned the corner. All I could see was darkness. Was I Dead? Dead. Dead. Suddenly, I felt a freezing cold liquid thrown on my face. I opened my eyes.</p>
+
+                    <p>"Mr. Oliver?"</p>
+
+                    <p>"Safa!! Safa!!" he looked more relieved than me. I put my head down. I had the chance to meet my parents. I could finally see them for real. No more dreams. No more nightmares. Just peace. Just good people. Just heaven. Just faith. No clowns. No smile. No boogeyman. Just peace. Just me and my parents and all the good eggs of humankind. All the eggs that are like my super supportive teachers. I would have been there with them. Free of charge. No worries to bother me. I looked at sir and gave him that look. The look that said, 'I want to be with my parents.' He looked back at me.</p>
+
+                    <p>"I am sorry Safa. I -- I'm sorry. I wish I could have saved them from the fire." He quickly put his hand over his mouth.</p>
+
+                    <p>"I beg your pardon, could you please repeat what you said sir." I said. Sir soon realized that there was a hint of curiosity in my eye. He stayed quiet.</p>
+
+                    <p>"... what are you two talking about without me?"</p>
+
+                    <p>"Huh, Bestie?????"</p>
+
+                    <p>"Sir, what do we do?" I whispered.</p>
+
+                    <p>"I don't know." Mr. Oliver whispered as a shock of panic arose within him.</p>
+
+                    <p>"Let's just tell sir the truth." I whispered quieter than last time.</p>
+
+                    <p>"About what??"</p>
+
+                    <p>"The fire. You mentioned." I suggested</p>
+
+                    <p>"Oh, did I interrupt you both?" why has Mr. A. Mohammed always been terrible at sarcasm? Seriously, how can my math teacher not know how to use sarcasm. If I told him the truth, he would certainly tell me the rest of the truth, but he would also tell Mr. Oliver off. How can the assistant principle tell the principle off? I thought for a second.</p>
+
+                    <p>"No, Mr. Bestie, you did not interrupt us. I just fell over, and sir was helping me, when I told sir that the map, he made was confusing and useless and it missed a few subjects. Not a big deal, sir. Just a mistake."</p>
+
+                    <p>we looked at each other for a while, and then at Mr. Oliver. Sir seemed very relieved that I told a lie to protect him.</p>
+
+                    <p>"Thank you, Safa. I have good news for you. Mr. Garet has come to this school as the head of P.E."</p>
+
+                    <p>"Sir, that's amazing now we have a proper P.E. teacher." I was excited to be with him again.</p>
+
+                    <p>"Which lesson do you have now?"</p>
+
+                    <p>"Geography, sir."</p>
+
+                    <p>"Ah, there you are Safa. I've been looking everywhere for you." Mr. Muhammad didn't really look like Mr. Bestie. He had lightly curly hair and a beard.</p>
+
+                    <p>"I got lost. Mostly because sir's map missed a lot of things."</p>
+
+                    <p>"Let's go to class now. Come on." We walked and walked until we reached the end of the corridor and made a left turn before the glass wall.</p>
+
+                    <p>"Safa, this is my classroom. You're lucky it's only been 6 minutes since the lesson started."</p>
+
+                    <p>"6 minutes??? I thought it was 6 hours not 6 minutes."</p>
+
+                    <p>"Well, welcome to Baker's field primary and secondary Safa." I entered the classroom. There were 4 rows with 8 people in each row. And a teacher's desk at the front. next to Sir's laptop was a coke can. There was one spot at the back of the class next to the window. In the corner. Sir pointed towards that spot. I knew instantly what he was thinking. No. no. not the corner!!! I put my head down and slowly walked to the seat. Back slouched. After 3minutes of walking, to annoy Sir further. He got up out of his seat and walked towards me.</p>
+
+                    <p>"Safa don't worry Mr. Oliver will be here in 2 minutes."</p>
+
+                    <p>"I never said anything about Mr. Oliver, S-Sir."</p>
+
+                    <p>"I thought it would be helpful, he sent me an email telling me to call him when I have you."</p>
+
+                    <p>"Ok-ay??" The lesson went on and on. But Mr. Oliver was nowhere to be seen. Nor was the smile or the boogeyman. I looked around and put my head down. I looked at the door one last time and. Everyone had disappeared. I rubbed my eyes. They were still there. I could still hear Mr. Muhammad's voice. I felt a strong wind pushing me out of the classroom. It almost felt like 6 hands on me. I walked out of the classroom. I turned the corner. The smile was there. So was the Bogeyman. So was the clown. I am pretty sure my friend said it was called the It. My friend Gamorn Haramas was there. What was she....? How could she be here? There were more monsters behind them. It was like an army of ... MONSTERS. I blinked. Again. And again. I threw myself to the wall. They were gone. All of them. Hepsi. Wait. Where did that come from? Am I speaking Turkish now? Cool. I wonder what else I can speak. I saw a black smoke with 2 red lines for eyes. It was carrying a knife. It hovered towards me. Slowly. Slowly.</p>
+
+                    <p><strong>...</strong></p>
+                </div>
+
+                <!-- Page 5: Auto-biography -->
+                <div class="page" data-page="5">
+                    <h2><u>Auto-biography:</u></h2>
+                    
+                    <p>Laaibah Altaf was born to and raised by British Pakistani parents. She is the youngest of three children and has two older siblings. She is part of the Student Government at her School, and she is also an MFL (Modern Foreign Languages) Ambassador for her school. She has won a competition at Holte School as an MFL Ambassador. Laaibah speaks multiple languages such as, English, Urdu, Patwari, a bit of German, BSL (British Sign Language) and Classical Arabic and is currently learning five languages including Somali, Norwegian, Azeri, Turkish and Persian. After school Laaibah dedicates much of her free time to studying, she is a firm believer that 'Knowledge is the key to change.' <strong><em>"Knowledge is Power, Power is Wisdom and Wisdom is Understanding." is a quote by Vincent King Jr.</em></strong></p>
+
+                    <p>Not receiving support did not stop her as she had a Form Tutor, who she likes to call <strong>'The World's Best Form Tutor'</strong> called Mr. Omar Mohammed. Mr. Omar Mohammed first started off as her mathematics teacher in Year 8 and eventually became her Form Tutor in Year 9. As her Form Tutor, he would continuously encourage her and support her.</p>
+
+                    <p>However, supporting a child who needs a lot of support isn't easy. So, Altaf had another mathematics teacher to support her at school, Mr. Abdishakur Mohamed. Together both Mr. Mohammed (s) supported her to strive through life and thrive at school, regardless of the fact that they were in no position to physically help her. They continued to dedicate their free time to support her to learn and grow.</p>
+
+                    <p>Laaibah is extremely grateful for having such teachers, especially her Form Tutor, Mr. Omar Mohammed, who humbly supported her at school and she is adherent that 'The World needs people, friends and teachers who are like Mr. Omar Mohammed and Mr. Abdishakur Mohamed.' and that 'Change is inevitable, it is just a matter of time.'</p>
+
+                    <p>Altaf had originally typed this book during one of her English lessons in Year 7 and had shown a few teachers. One of her teachers told her to continue it. After a month of continuous prompting she agreed to make a second book. The Frown Turned Upside Down book 2. This then led to book 3. At this point, Altaf was not thinking of getting her book (s) published. However, her mathematics teacher, Mr. Omar Mohammed, suggested that she should publish it and lent her a hand.</p>
+                </div>
+
+                <!-- Page 6: Acknowledgements -->
+                <div class="page" data-page="6">
+                    <h2><u>Acknowledgements:</u></h2>
+                    
+                    <p>I am Thankful to everyone who supported me, especially the following:</p>
+
+                    <p><strong>1. Allah</strong> - For providing me with amazing parents and an amazing Form Tutor (Mr. Omar Mohammed), who may be too humble, All praise and thanks is for God.</p>
+
+                    <p><strong>2. My Parents</strong> - For always supporting me to do better,raising me, protecting me and helping me see things from a different angle. "One who follows the orders of Allah (God) with regards to obeying his Parents, shall have two doors of Paradise opened to him and if he has one parent then only one door will be opened for him." - Hadith. May Allah (Allah) protect them as they protected me and May Allah (God) have mercy on them as they had mercy on me as they brought me up.</p>
+
+                    <p><strong>3. Mr. Omar Mohammed</strong> - For always being there, despite my nuisance and always supporting me in every aspect of life. I am also grateful to sir for teaching me mathematics and for giving me Naseeha (Advice) on life and for keeping me on track and allowing me to grow and continue to be myself. Sir also supported me in writing this book as my proofreader and editor, the biography and the acknowledgements. May Allah (God) give him strength and knowledge and bestow him with His mercy.</p>
+
+                    <p><strong>4. Mr. Abdishakur Mohamed</strong> - For always making everything humorous and helping me to strive in both mathematics and life. Sir played a big role in helping me write my book and continue to be myself. May Allah (God) give him strength and increase his knowledge and bestow him with His mercy.</p>
+
+                    <p>May Allah (God) lower His wing of mercy on them (even those who are not mentioned) and provide them with protection and strength. May Allah (God) grant them success and grant them (even those who are not mentioned.) the highest level of Jannah.</p>
+
+                    <p>I Thank all of my Family, Friends and Teachers who made this book possible, especially those listed above and others whom I did not mention above (otherwise the list would be very long) because in reality nothing is possible without the right support.</p>
+
+                    <p>Remember, 'You can Change the World, with your souls.' - Sami Yusuf.</p>
+
+                    <p>May Allah (God) bestow everyone with mercy and grant everyone success in this life and the next.</p>
+
+                    <p style="text-align: center; font-weight: bold; font-size: 1.2rem; margin-top: 30px;">THANK YOU.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Book state management
+        let currentPage = 1;
+        const totalPages = 6;
+        let bookmarks = JSON.parse(sessionStorage.getItem('bookmarks') || '[]');
+        let searchResults = [];
+        let currentSearchIndex = -1;
+
+        // Initialize the book
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavigation();
+            loadBookmarks();
+            setupEventListeners();
+        });
+
+        // Event listeners
+        function setupEventListeners() {
+            // Navigation buttons
+            document.getElementById('prevBtn').addEventListener('click', () => changePage(-1));
+            document.getElementById('nextBtn').addEventListener('click', () => changePage(1));
+            
+            // Chapter select
+            document.getElementById('chapterSelect').addEventListener('change', function() {
+                const page = parseInt(this.value);
+                goToPage(page + 1);
+            });
+
+            // Bookmark button
+            document.getElementById('bookmarkBtn').addEventListener('click', toggleBookmark);
+
+            // Search functionality
+            const searchBar = document.getElementById('searchBar');
+            searchBar.addEventListener('input', debounce(performSearch, 300));
+            searchBar.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    navigateSearch(1);
+                } else if (e.key === 'Escape') {
+                    clearSearch();
+                }
+            });
+
+            // Touch/swipe events
+            let startX, startY, startTime;
+            const bookContent = document.getElementById('bookContent');
+            
+            bookContent.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                startTime = Date.now();
+            });
+
+            bookContent.addEventListener('touchend', function(e) {
+                if (!startX || !startY) return;
+                
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                const endTime = Date.now();
+                
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+                const diffTime = endTime - startTime;
+                
+                // Check if it's a valid swipe (fast enough and horizontal enough)
+                if (diffTime < 300 && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        changePage(1); // Swipe left - next page
+                    } else {
+                        changePage(-1); // Swipe right - previous page
+                    }
+                }
+                
+                startX = startY = null;
+            });
+
+            // Click areas for desktop
+            document.getElementById('touchPrev').addEventListener('click', () => changePage(-1));
+            document.getElementById('touchNext').addEventListener('click', () => changePage(1));
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.target.tagName === 'INPUT') return;
+                
+                switch(e.key) {
+                    case 'ArrowLeft':
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        changePage(-1);
+                        break;
+                    case 'ArrowRight':
+                    case 'ArrowDown':
+                    case ' ':
+                        e.preventDefault();
+                        changePage(1);
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        goToPage(1);
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        goToPage(totalPages);
+                        break;
+                }
+            });
+
+            // Glossary item clicks
+            document.querySelectorAll('.glossary-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const searchTerm = this.getAttribute('data-search');
+                    document.getElementById('searchBar').value = searchTerm;
+                    performSearch();
+                });
+            });
+        }
+
+        // Page navigation functions
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                goToPage(newPage);
+            }
+        }
+
+        function goToPage(pageNum) {
+            if (pageNum < 1 || pageNum > totalPages) return;
+            
+            // Hide current page
+            const currentPageEl = document.querySelector('.page.active');
+            if (currentPageEl) {
+                currentPageEl.classList.remove('active');
+            }
+            
+            // Show new page
+            const newPageEl = document.querySelector(`[data-page="${pageNum}"]`);
+            if (newPageEl) {
+                newPageEl.classList.add('active');
+                currentPage = pageNum;
+                updateNavigation();
+                
+                // Scroll to top
+                document.getElementById('bookContent').scrollTop = 0;
+            }
+        }
+
+        function updateNavigation() {
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('totalPages').textContent = totalPages;
+            
+            // Update button states
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            
+            // Update chapter select
+            const chapterSelect = document.getElementById('chapterSelect');
+            chapterSelect.value = Math.max(0, currentPage - 1);
+            
+            // Update bookmark button
+            updateBookmarkButton();
+        }
+
+        // Search functionality
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchBar').value.trim().toLowerCase();
+            clearSearchHighlights();
+            
+            if (query.length < 2) {
+                searchResults = [];
+                return;
+            }
+
+            searchResults = [];
+            const pages = document.querySelectorAll('.page');
+            
+            pages.forEach((page, index) => {
+                const pageNum = index + 1;
+                const content = page.textContent.toLowerCase();
+                let searchIndex = 0;
+                
+                while ((searchIndex = content.indexOf(query, searchIndex)) !== -1) {
+                    searchResults.push({
+                        page: pageNum,
+                        index: searchIndex,
+                        element: page
+                    });
+                    searchIndex++;
+                }
+            });
+
+            if (searchResults.length > 0) {
+                highlightSearchResults(query);
+                currentSearchIndex = 0;
+                goToSearchResult(0);
+            }
+        }
+
+        function highlightSearchResults(query) {
+            const pages = document.querySelectorAll('.page');
+            
+            pages.forEach(page => {
+                const walker = document.createTreeWalker(
+                    page,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+
+                const textNodes = [];
+                let node;
+                while (node = walker.nextNode()) {
+                    textNodes.push(node);
+                }
+
+                textNodes.forEach(textNode => {
+                    const text = textNode.textContent;
+                    const lowerText = text.toLowerCase();
+                    let lastIndex = 0;
+                    let newHTML = '';
+
+                    while (true) {
+                        const index = lowerText.indexOf(query, lastIndex);
+                        if (index === -1) break;
+
+                        newHTML += text.slice(lastIndex, index);
+                        newHTML += `<span class="search-highlight">${text.slice(index, index + query.length)}</span>`;
+                        lastIndex = index + query.length;
+                    }
+
+                    if (lastIndex > 0) {
+                        newHTML += text.slice(lastIndex);
+                        const span = document.createElement('span');
+                        span.innerHTML = newHTML;
+                        textNode.parentNode.replaceChild(span, textNode);
+                    }
+                });
+            });
+        }
+
+        function goToSearchResult(index) {
+            if (index < 0 || index >= searchResults.length) return;
+            
+            const result = searchResults[index];
+            goToPage(result.page);
+            currentSearchIndex = index;
+        }
+
+        function navigateSearch(direction) {
+            if (searchResults.length === 0) return;
+            
+            currentSearchIndex += direction;
+            if (currentSearchIndex >= searchResults.length) currentSearchIndex = 0;
+            if (currentSearchIndex < 0) currentSearchIndex = searchResults.length - 1;
+            
+            goToSearchResult(currentSearchIndex);
+        }
+
+        function clearSearch() {
+            document.getElementById('searchBar').value = '';
+            clearSearchHighlights();
+            searchResults = [];
+            currentSearchIndex = -1;
+        }
+
+        function clearSearchHighlights() {
+            const highlights = document.querySelectorAll('.search-highlight');
+            highlights.forEach(highlight => {
+                const parent = highlight.parentNode;
+                parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                parent.normalize();
+            });
+        }
+
+        // Bookmark functionality
+        function toggleBookmark() {
+            const pageTitle = getPageTitle(currentPage);
+            const existingIndex = bookmarks.findIndex(b => b.page === currentPage);
+            
+            if (existingIndex > -1) {
+                bookmarks.splice(existingIndex, 1);
+            } else {
+                bookmarks.push({
+                    page: currentPage,
+                    title: pageTitle,
+                    timestamp: new Date().toLocaleString()
+                });
+            }
+            
+            saveBookmarks();
+            updateBookmarkButton();
+            loadBookmarks();
+        }
+
+        function updateBookmarkButton() {
+            const btn = document.getElementById('bookmarkBtn');
+            const isBookmarked = bookmarks.some(b => b.page === currentPage);
+            
+            if (isBookmarked) {
+                btn.classList.add('bookmarked');
+                btn.textContent = '🔖 Bookmarked';
+            } else {
+                btn.classList.remove('bookmarked');
+                btn.textContent = '🔖 Bookmark';
+            }
+        }
+
+        function getPageTitle(pageNum) {
+            const titles = {
+                1: 'Title Page',
+                2: 'Part 1',
+                3: 'Part 2', 
+                4: 'Part 3',
+                5: 'Auto-biography',
+                6: 'Acknowledgements'
+            };
+            return titles[pageNum] || `Page ${pageNum}`;
+        }
+
+        function loadBookmarks() {
+            const bookmarksList = document.getElementById('bookmarksList');
+            
+            if (bookmarks.length === 0) {
+                bookmarksList.innerHTML = '<div style="color: #666; font-style: italic; text-align: center; padding: 20px;">No bookmarks yet</div>';
+                return;
+            }
+            
+            bookmarksList.innerHTML = bookmarks
+                .sort((a, b) => a.page - b.page)
+                .map(bookmark => `
+                    <div class="bookmark-item" onclick="goToPage(${bookmark.page})">
+                        <strong>${bookmark.title}</strong><br>
+                        <small>Page ${bookmark.page} • ${bookmark.timestamp}</small>
+                    </div>
+                `).join('');
+        }
+
+        function saveBookmarks() {
+            sessionStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        }
+
+        // Utility functions
+        function getPageContent(pageNum) {
+            const page = document.querySelector(`[data-page="${pageNum}"]`);
+            return page ? page.textContent : '';
+        }
+
+        // Reading progress tracking
+        function updateReadingProgress() {
+            const progress = (currentPage / totalPages) * 100;
+            // You could add a progress bar here if desired
+        }
+
+        // Auto-save reading position
+        function saveReadingPosition() {
+            sessionStorage.setItem('currentPage', currentPage.toString());
+        }
+
+        function loadReadingPosition() {
+            const savedPage = sessionStorage.getItem('currentPage');
+            if (savedPage) {
+                goToPage(parseInt(savedPage));
+            }
+        }
+
+        // Initialize reading position on load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReadingPosition();
+            
+            // Save position when page changes
+            const observer = new MutationObserver(function() {
+                saveReadingPosition();
+                updateReadingProgress();
+            });
+            
+            observer.observe(document.querySelector('#bookContent'), {
+                attributes: true,
+                subtree: true,
+                attributeFilter: ['class']
+            });
+        });
+
+        // Print functionality
+        function printBook() {
+            window.print();
+        }
+
+        // Full-screen reading mode
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Font size adjustment
+        let fontSize = 18;
+        function adjustFontSize(delta) {
+            fontSize = Math.max(12, Math.min(24, fontSize + delta));
+            document.querySelector('.book-content').style.fontSize = fontSize + 'px';
+        }
+
+        // Reading time estimation
+        function estimateReadingTime(text) {
+            const wordsPerMinute = 200;
+            const words = text.split(/\s+/).length;
+            return Math.ceil(words / wordsPerMinute);
+        }
+
+        // Add keyboard shortcuts help
+        function showKeyboardShortcuts() {
+            alert(`Keyboard Shortcuts:
+            
+← / ↑ : Previous page
+→ / ↓ / Space : Next page
+Home : First page
+End : Last page
+Esc : Clear search
+Enter : Navigate search results`);
+        }
+
+        // Export bookmarks
+        function exportBookmarks() {
+            const dataStr = JSON.stringify(bookmarks, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'frown-turned-upside-down-bookmarks.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        // Theme switching (if you want to add dark mode later)
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            sessionStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+        }
+
+        // Load theme preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = sessionStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+        });
+
+        // Add context menu for additional options
+        document.addEventListener('contextmenu', function(e) {
+            // You could add a custom context menu here with options like:
+            // - Copy text
+            // - Add bookmark
+            // - Search selection
+            // etc.
+        });
+
+        // Smooth scrolling for better UX
+        function smoothScrollToTop() {
+            document.getElementById('bookContent').scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Text selection handling
+        function getSelectedText() {
+            return window.getSelection().toString().trim();
+        }
+
+        // Quick search selected text
+        document.addEventListener('mouseup', function() {
+            const selectedText = getSelectedText();
+            if (selectedText.length > 0 && selectedText.length < 50) {
+                // Could auto-populate search bar with selection
+            }
+        });
+
+        // Accessibility improvements
+        function announcePageChange() {
+            const pageTitle = getPageTitle(currentPage);
+            // Could use screen reader announcements here
+            document.title = `${pageTitle} - The Frown Turned Upside Down`;
+        }
+
+        // Update page change function to include accessibility
+        const originalGoToPage = goToPage;
+        goToPage = function(pageNum) {
+            originalGoToPage(pageNum);
+            announcePageChange();
+        };
+
+        // Preload adjacent pages for faster navigation
+        function preloadAdjacentPages() {
+            // This would preload images and content for smoother transitions
+        }
+
+        // Handle online/offline status
+        function updateOnlineStatus() {
+            const status = navigator.onLine ? 'online' : 'offline';
+            // Could show status indicator if needed
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        // Performance monitoring
+        function measurePageLoadTime() {
+            const loadTime = performance.now();
+            console.log(`Page loaded in ${loadTime.toFixed(2)}ms`);
+        }
+
+        // Initialize performance monitoring
+        document.addEventListener('DOMContentLoaded', measurePageLoadTime);
+    </script>
 </body>
 </html>
